@@ -13,11 +13,241 @@
 		</cfscript>
 	</cffunction>
 
-	<!--- Expenses --->
-    <cffunction name="clientList" output="false" access="public" returntype="any">
+	<!--- API:callback methods (todo: create,verify,resendToken,delete ) (list) --->
+    <cffunction name="callbackList" output="false" access="public" returntype="any"
+				description="Returns a list of expense categories.">
 		<cfscript>
+			var results = {};
+			arguments.httpMethod = "post";
+			arguments.requestMethod = "callback.list";
+			results = sendAndReceive(argumentCollection=arguments);
+			return results;
+		</cfscript>
+    </cffunction>
+
+	<!--- API:category methods (todo: create,update,get,delete ) (list) 
+		Staff have access to the get, list and create API calls listed below if the Expenses tab is enabled for 
+		staff. Staff cannot delete or update Categories.
+		--->
+    <cffunction name="categoryList" output="false" access="public" returntype="any">
+		<cfscript>
+			var results = {};
+			arguments.httpMethod = "post";
+			arguments.requestMethod = "category.list";
+			results = sendAndReceive(argumentCollection=arguments);
+			return results;
+		</cfscript>
+    </cffunction>
+    
+	<!--- API:client methods (todo: create,update,get,delete ) (list) 
+		Staff have access to the API calls listed below if the Clients tab is enabled for staff. Each staff 
+		member can create clients, and view and edit clients that they are assigned to.
+		--->
+    <cffunction name="clientList" output="false" access="public" returntype="any"
+				description="Returns a list of client summaries.">
+		<cfscript>
+			var results = {};
 			arguments.httpMethod = "post";
 			arguments.requestMethod = "client.list";
+			results = sendAndReceive(argumentCollection=arguments);
+			return results;
+		</cfscript>
+    </cffunction>
+    
+	<!--- API:estimate methods (todo: create,update,get,delete,sendByEmail ) (list) 
+		Staff have access to the API calls listed below if the Estimates tab is enabled for staff. Staff 
+		users can only access estimates that belong to clients they are assigned to.
+		--->
+    <cffunction name="estimateList" output="false" access="public" returntype="any"
+				description="Returns a list of estimates.">
+		<cfscript>
+			var results = {};
+			arguments.httpMethod = "post";
+			arguments.requestMethod = "estimate.list";
+			results = sendAndReceive(argumentCollection=arguments);
+			return results;
+		</cfscript>
+    </cffunction>
+    
+	<!--- API:expense methods (todo: create,update,get,delete ) (list) 
+		Staff have access to the API calls listed below, but they can only access expenses that belong 
+		to them or are assigned to clients they are assigned to.
+		--->
+    <cffunction name="expenseList" output="false" access="public" returntype="any"
+				description="Returns a list of expense summaries.">
+		<cfscript>
+			var results = {};
+			arguments.httpMethod = "post";
+			arguments.requestMethod = "expense.list";
+			results = sendAndReceive(argumentCollection=arguments);
+			return results;
+		</cfscript>
+    </cffunction>
+    
+	<!--- API:gateway methods (list) 
+		Staff have access to the list API call
+		--->
+    <cffunction name="gatewayList" output="false" access="public" returntype="any"
+				description="Returns a list of payment gateways enabled in your FreshBooks account that can process credit card transactions.">
+		<cfscript>
+			var results = {};
+			arguments.httpMethod = "post";
+			arguments.requestMethod = "gateway.list";
+			results = sendAndReceive(argumentCollection=arguments);
+			return results;
+		</cfscript>
+    </cffunction>
+    
+	<!--- API:invoice methods (todo: create,update,get,delete,sendByEmail,sendBySnailMail,lines.add,lines.delete,lines.update) (list) 
+		Staff have access to the API calls listed below if the Invoices tab is enabled for staff. Staff users 
+		can only access invoices that belong to clients they are assigned to.
+		--->
+    <cffunction name="invoiceList" output="false" access="public" returntype="any"
+				description="Returns a list of invoice summaries.">
+		<cfscript>
+			var results = {};
+			arguments.httpMethod = "post";
+			arguments.requestMethod = "invoice.list";
+			results = sendAndReceive(argumentCollection=arguments);
+			return results;
+		</cfscript>
+    </cffunction>
+    
+	<!--- API:item methods (todo: create,update,get,delete ) (list) --->
+    <cffunction name="itemList" output="false" access="public" returntype="any"
+				description="Returns a list of items.">
+		<cfscript>
+			var results = {};
+			arguments.httpMethod = "post";
+			arguments.requestMethod = "item.list";
+			results = sendAndReceive(argumentCollection=arguments);
+			return results;
+		</cfscript>
+    </cffunction>
+    
+	<!--- API:language methods (list) 
+		Staff have access to the list API call.
+		--->
+    <cffunction name="languageList" output="false" access="public" returntype="any" 
+		description="The Language API provides access to the list of languages available in the application.">
+		<cfscript>
+			var results = {};
+			arguments.httpMethod = "post";
+			arguments.requestMethod = "language.list";
+			results = sendAndReceive(argumentCollection=arguments);
+			return results;
+		</cfscript>
+    </cffunction>
+    
+	<!--- API:payment methods (todo: create,update,get,delete ) (list) 
+		Staff have access to the API calls listed below if the Invoices tab is enabled for staff. Staff users 
+		can only access payments that belong to clients they are assigned to.
+		--->
+    <cffunction name="paymentList" output="false" access="public" returntype="any" 
+				description="Returns a list of recorded payments.">
+		<cfscript>
+			var results = {};
+			arguments.httpMethod = "post";
+			arguments.requestMethod = "payment.list";
+			results = sendAndReceive(argumentCollection=arguments);
+			return results;
+		</cfscript>
+    </cffunction>
+    
+	<!--- payment methods (todo: create,update,get,delete ) (list) 
+		Staff have access to the API calls listed below if the Time Tracking tab is enabled for staff. Each 
+		staff member can view all projects to which he or she is assigned. Each staff member can edit only 
+		those projects on which he or she is the Project Manager. Limited information is returned about projects 
+		that the staff member is assigned to, but not the manager of.
+		--->
+    <cffunction name="projectList" output="false" access="public" returntype="any" 
+				description="Returns a list of projects.">
+		<cfscript>
+			var results = {};
+			arguments.httpMethod = "post";
+			arguments.requestMethod = "project.list";
+			results = sendAndReceive(argumentCollection=arguments);
+			return results;
+		</cfscript>
+    </cffunction>
+    
+	<!--- API:receipt methods (todo: create,update,get,delete ) 
+		Receipts should always be linked with one expense.
+		--->
+    
+	<!--- API:recurring methods (todo: create,update,get,delete,lines.add,lines.delete,lines.update ) (list) 
+		The Recurring Profile API allows you to create recurring profiles in the FreshBooks application.
+		--->
+    <cffunction name="recurringList" output="false" access="public" returntype="any" 
+				description="Returns a list of recurring profile summaries.">
+		<cfscript>
+			var results = {};
+			arguments.httpMethod = "post";
+			arguments.requestMethod = "recurring.list";
+			results = sendAndReceive(argumentCollection=arguments);
+			return results;
+		</cfscript>
+    </cffunction>
+    
+	<!--- API:staff methods (todo: current,get ) (list) 
+		Staff have access to the API calls listed below, but only for their own staff_id.
+		--->
+    <cffunction name="staffList" output="false" access="public" returntype="any" 
+				description="Returns a list of staff.">
+		<cfscript>
+			var results = {};
+			arguments.httpMethod = "post";
+			arguments.requestMethod = "staff.list";
+			results = sendAndReceive(argumentCollection=arguments);
+			return results;
+		</cfscript>
+    </cffunction>
+    
+	<!--- API:system methods (todo: current )
+		Admin users can query system.current to retrieve system information
+		--->
+    
+	<!--- API:task methods (todo: create,update,get,delete ) (list) 
+		Staff have access to the API calls listed below if the Time Tracking tab 
+		is enabled for staff. You can enable or disable the Time Tracking tab under 
+		Settings->Permissions->Staff Permissions. Please note that the ‘project_id’ 
+		filter for task.list would only work for staff if they are assigned to the 
+		project.
+		--->
+    <cffunction name="taskList" output="false" access="public" returntype="any" 
+				description="Returns a list of tasks.">
+		<cfscript>
+			var results = {};
+			arguments.httpMethod = "post";
+			arguments.requestMethod = "task.list";
+			results = sendAndReceive(argumentCollection=arguments);
+			return results;
+		</cfscript>
+    </cffunction>
+    
+	<!--- API:tax methods (todo: current,update,get,delete ) (list) --->
+    <cffunction name="taxList" output="false" access="public" returntype="any" 
+				description="Returns a list of taxes.">
+		<cfscript>
+			var results = {};
+			arguments.httpMethod = "post";
+			arguments.requestMethod = "tax.list";
+			results = sendAndReceive(argumentCollection=arguments);
+			return results;
+		</cfscript>
+    </cffunction>
+    
+	<!--- API:time_entry methods (todo: current,update,get,delete ) (list) 
+		Staff have access to the API calls listed below if the Time Tracking tab is 
+		enabled for staff. Each staff member can only create time entries against projects 
+		to which he or she is assigned.
+		--->
+    <cffunction name="time_entryList" output="false" access="public" returntype="any" 
+				description="Returns a list of timesheet entries.">
+		<cfscript>
+			var results = {};
+			arguments.httpMethod = "post";
+			arguments.requestMethod = "time_entry.list";
 			results = sendAndReceive(argumentCollection=arguments);
 			return results;
 		</cfscript>
